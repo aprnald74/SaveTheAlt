@@ -53,7 +53,7 @@ public class LineMaker : MonoBehaviour
     private List<SpriteRenderer> thisImg = new List<SpriteRenderer>();
 
     // InGame에 있는 별이 바뀔 이미지를 저장하기 위한 변수
-    private Sprite change_Icon;
+    [SerializeField] private Sprite ChangeIcon;
 
     // thisImg의 별마다 사라질 수를 저장하기 위한 변수
     private List<float> star = new List<float>();
@@ -91,7 +91,8 @@ public class LineMaker : MonoBehaviour
         max.AddRange(new float[] { 500, 800, 700 });
 
         // 바꿀 이미지 찾아옴
-        change_Icon = Resources.Load<Sprite>("IMG/Yes");
+        Object[] sprites = Resources.LoadAll("IMG/GUI");
+        ChangeIcon = sprites[26] as Sprite;
 
         cheackOne = true;
         cheackTwo = true;
@@ -126,7 +127,7 @@ public class LineMaker : MonoBehaviour
         // 게이지 값에따라 별의 이미지를 바꿈
         if (num != -1) 
             if (current <= star[num])
-                thisImg[num--].sprite = change_Icon;
+                thisImg[num--].sprite = ChangeIcon;
 
         // 게이지를 다 쓰면 Hpbar를 없애고 더이상 못그리게 함
         if (current <= 0) {

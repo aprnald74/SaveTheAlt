@@ -8,7 +8,13 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer thisImg; // 오브젝트 이미지
 
+    private GameObject xIcon;
+
     private Sprite change_Icon; // 바뀔 이미지
+
+    private bool hitSomething;
+
+    private bool count;
 
 
     /// <summary>
@@ -16,6 +22,11 @@ public class Player : MonoBehaviour
     /// </summary>
     void Awake()
     {
+
+        count = true;
+
+        xIcon = Resources.Load<GameObject>("Prefab/X");
+
         particle = GameObject.Find("Boom").GetComponent<ParticleSystem>();
 
         thisImg = GetComponent<SpriteRenderer>();
@@ -39,21 +50,27 @@ public class Player : MonoBehaviour
     /// 충돌한 오브젝트가 Monster이면 이미지 바꾸고 <br />
     /// Trap이면 파티클 실행 시키고 코르틴 작동시킴
     /// </summary>
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Monster")) {
-            thisImg.sprite = change_Icon;
+        if (collision.collider.CompareTag("Lava") && count) {
+            particle.transform.position = gameObject.transform.position;
+
+            particle.Play();
+
+            hitSomething = true;
+
+            StartCoroutine(ComeBack());
+            
+        } else if ((collision.collider.CompareTag("Trap") || collision.collider.CompareTag("Monster")) && count) {
+            particle.transform.position = gameObject.transform.position;
+
+            particle.Play();
+
+            hitSomething = false;
+
+            StartCoroutine(ComeBack());
         }
-
-        if (collision.collider.CompareTag("Trap")) 
-            if (this.gameObject.activeInHierarchy) {
-
-                particle.transform.position = gameObject.transform.position;
-
-                particle.Play();
-
-                StartCoroutine(ComeBack());
-            } 
+            
     }
 
     /// <summary>
@@ -61,12 +78,18 @@ public class Player : MonoBehaviour
     /// </summary>
     IEnumerator ComeBack()
     {
-        thisImg.sprite = null;
 
+        count = false;
+
+        GameObject t = Instantiate(xIcon, GameObject.Find("Instantiate").transform);
+        t.transform.position = this.gameObject.transform.position;
+
+        if (hitSomething)
+            thisImg.sprite = null;
+        else 
+            thisImg.sprite = change_Icon;
         yield return new WaitForSeconds(0.3f);
 
-        GameObject.Find("GameManager").GetComponent<Stage>().nPlayer -= 1;
-
-        Destroy(gameObject);
+        GameObject.Find("GameManager").GetComponent<Stage>().nPlayer = true;
     }
 }
