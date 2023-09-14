@@ -4,10 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
   - Trap
   - Monster
   - Ground
+  - Lava
+  - Line
+  - Cliff
   layers:
   - Default
   - TransparentFX

@@ -182,6 +182,8 @@ public class LineMaker : MonoBehaviour
 
             cheackOne = false;
 
+            GameObject.Find("GameManager").GetComponent<Stage>().gameStart = true;
+
             foreach (Rigidbody2D line in lines)
                 line.gravityScale = 1f;
 

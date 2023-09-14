@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Lava") && count) {
+        if ((collision.collider.CompareTag("Lava") || collision.collider.CompareTag("Cliff")) && count) {
             particle.transform.position = gameObject.transform.position;
 
             particle.Play();

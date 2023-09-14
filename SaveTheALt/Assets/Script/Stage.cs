@@ -7,18 +7,35 @@ public class Stage : MonoBehaviour
 
     [HideInInspector] public int stage; // 현제 스테이지
 
+    public bool gameStart;
+
     private Canvas over; // 게임 오버 팝업 창
+
+    private Canvas setting;
+
+    private Canvas clear;
+
+    
+
 
     /// <summary>
     /// 각종 게임 세팅
     /// </summary>
     void Awake()
     {
-        over = GameObject.Find("Setting").GetComponent<Canvas>();
+        over = GameObject.Find("End").GetComponent<Canvas>();
+
+        setting = GameObject.Find("Setting").GetComponent<Canvas>();
+
+        clear = GameObject.Find("Clear").GetComponent<Canvas>();
 
         stage = 1;
 
         over.enabled = false;
+
+        setting.enabled = false;
+
+        clear.enabled = false;
 
         nPlayer = false;
     }
@@ -28,6 +45,9 @@ public class Stage : MonoBehaviour
     /// </summary>
     void Update()
     {
+
+        if (gameStart)
+            StartCoroutine(GameStart());
 
         if (nPlayer) 
             StartCoroutine(GameOver());
@@ -45,5 +65,16 @@ public class Stage : MonoBehaviour
         over.enabled = true;
 
         Time.timeScale = 0;
+    }
+
+    IEnumerator GameStart()
+    {
+
+        yield return new WaitForSeconds(10.0f);
+
+        clear.enabled = true;
+
+        Time.timeScale = 0;
+
     }
 }
