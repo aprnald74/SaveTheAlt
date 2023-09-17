@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
-    [HideInInspector] public bool CMP; // CMP에 따라 collider이 켜지고 꺼짐
+    [HideInInspector] public bool CMP;
 
-    private CircleCollider2D circleCollider; // 오브젝트의 collider
+    private CircleCollider2D circleCollider;
+    private GameObject LineFinder;
 
-    private GameObject LineFinder; // LineFinder Prefab
+    private Vector3 mPosition; 
 
-    private Vector3 mPosition; // 오브젝트의 위치값
 
-    /// <summary>
-    /// 각종 게임 세팅
-    /// </summary>
     void Awake()
     {
         CMP = true;
@@ -22,21 +19,15 @@ public class Mouse : MonoBehaviour
         LineFinder = Resources.Load<GameObject>("Prefab/LineFinder");
     }
 
-    /// <summary>
-    /// 마우스 위치에 따라 오브젝트 계속 이동
-    /// </summary>
+
     void FixedUpdate()
     {
         mPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector2(mPosition.x, mPosition.y);
 
-        circleCollider.enabled = CMP; // CMP값에 따라 collider활성화 시킴
+        circleCollider.enabled = CMP;
     }
 
-    /// <summary>
-    /// 충돌한 오브젝트가 Ground, Player, Monster, Trap이라는 태그를 달고 있고, CMP가 true면<br />
-    /// 더 이상 못그리게 하고, 현제 위치에 Line_Finder오브젝트를 복제함
-    /// </summary>
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Ground" ||

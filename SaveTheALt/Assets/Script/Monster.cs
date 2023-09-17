@@ -5,24 +5,21 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
 
-    private List<GameObject> foundObject; // Player태그를 가진 오브젝트를 저장하기 위한 리스트
+    private List<GameObject> foundObject;
 
-    private ParticleSystem particle; // 오브젝트 터질때 생기는 파티클
+    private ParticleSystem particle;
 
-    private SpriteRenderer thisImg; // 오브젝트의 이미지
+    private SpriteRenderer thisImg;
 
-    private GameObject enemy; // 가장 가까운 Player
+    private GameObject enemy;
 
-    private float speed; // 오브젝트 이동속도
+    private float speed;
 
-    private float angle; // 오브젝트 회전
+    private float angle;
 
     private float shortDis;
 
 
-    /// <summary>
-    /// 각종 게임 세팅
-    /// </summary>
     void Awake()
     {
 
@@ -35,9 +32,7 @@ public class Monster : MonoBehaviour
         particle = GameObject.Find("Boom").GetComponent<ParticleSystem>();
     }
 
-    /// <summary>
-    /// 그림을 다 그리면 플레이어 위치로 다가감
-    /// </summary>
+
     void Update()
     {
         if (foundObject[0] != null)
@@ -58,9 +53,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 가장 가까운 Player을 찾고, 그 Player을 enemy에 넣음
-    /// </summary>
+
     void FindPlayer()
     {
 
@@ -79,9 +72,6 @@ public class Monster : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 충돌한 오브젝트가 Trap이면 파티클 실행 시키고 코르틴 작동시킴
-    /// </summary>
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Trap")) {
@@ -96,9 +86,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 이 오브젝트 이미지를 없애고 오브젝트를 없애는 코드
-    /// </summary>
+
     IEnumerator ComeBack()
     {
         thisImg.sprite = null;
@@ -106,10 +94,5 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         Destroy(gameObject);
-    }
-
-    void OnDisable()
-    {
-        Debug.Log("파괴됨");
     }
 }

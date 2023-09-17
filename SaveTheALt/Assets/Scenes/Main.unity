@@ -410,8 +410,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1929084035}
-        m_TargetAssemblyTypeName: Main, Assembly-CSharp
-        m_MethodName: OnClickStage
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: OnCLickStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1046,7 +1046,7 @@ GameObject:
   - component: {fileID: 1929084036}
   - component: {fileID: 1929084035}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
