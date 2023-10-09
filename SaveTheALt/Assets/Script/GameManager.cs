@@ -1,26 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
-
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
 
     private static int StageType = 5;
 
-    private List<GameObject> stars = new List<GameObject>();
+    public List<GameObject> starsGame;
 
-    public List<Canvas> stageType = new List<Canvas>();
+    public List<int> Stars;
 
-    public bool changeValue = false;
+    public List<GameObject> stageType;
+
+    public bool changeValue;
 
     public int nStage;
 
     public int clearStars;
 
-    public int clearStage = 1;
+    public int clearStage = 0;
+
+    public Sprite img;
+
+    int starIndex;
 
     private void Awake() 
     {
@@ -31,45 +34,63 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        for(int i = 0; i <= StageType; i++) {
-            stageType.Add(GameObject.Find("UI/Canvas/ScrollView/Viewport/Content/Stage" + (i + 1) + "/Panel").GetComponent<Canvas>());
+        Object[] sprites = Resources.LoadAll("IMG/GUI");
+        img = sprites[25] as Sprite;
+
+        for (int i = 0; i < StageType * 3; i++) {
+            Stars.Add(0);
         }
-
-    }
-
-    private void Start() {
-        List<List<int>> stage = new List<List<int>>() {
-            new List<int> {-1},
-            new List<int> {-1},
-            new List<int> {-1}, 
-            new List<int> {-1},
-            new List<int> {-1},
-        };
     }
 
     private void FixedUpdate() {
         if(changeValue && SceneManager.GetActiveScene().buildIndex == 1) {
-           for(int i = 1; i <= StageType; i++) {
-                if (clearStage > i) {
-                    stageType[i].enabled = false;
+
+            changeValue = false;
+        
+            for(int i = 1; i < StageType; i++) {
+                 stageType.Add(GameObject.Find("UI/Canvas/ScrollView/Viewport/Content/Stage" + (i + 1) + "/Panel"));
+                 if (clearStage >= i) 
+                    stageType[i - 1].SetActive(false);
+            }
+
+            starIndex = 0;
+            for (int i = 0; i < StageType; i++) {
+                for (int j = 0; j < 3; j++) {
+                    GameObject Star = GameObject.Find("UI/Canvas/ScrollView/Viewport/Content/Stage" + (i + 1) + "/GUI_58/Star/ClearStar" + (j + 1));
+                    if (Stars[starIndex] == 1) {
+                        Star.GetComponent<SpriteRenderer>().sprite = img;
+                        starIndex++;    
+                    }
                 }
             }
 
-        for(int i = 0; i < 3; i++) {
-            stars.Add(GameObject.Find("UI/Canvas/ScrollView/Viewport/Content/Stage" + (i + 1) + "/GUI_58/Star/ClearStar" + (i + 1)));
-        }
-
-        for (int i = 2; i >= 0; i--) {
-            if(clearStage + i >= 2) {
-                //stars[i].GetComponent<SpriteRenderer>().sprite = img;
+            if (clearStage != -5) {
+              for(int i = 0; i < 3; i++) {
+                    starsGame.Add(GameObject.Find("UI/Canvas/ScrollView/Viewport/Content/Stage" + clearStage + "/GUI_58/Star/ClearStar" + (i + 1)));
+                    if (clearStars + i >= 2) {
+                        starsGame[i].GetComponent<SpriteRenderer>().sprite = img;
+                    }
+                }
+                clearStage = -5;
             }
-        }
 
 
-            changeValue = false;
+            starIndex = 0;
+            for (int i = 0; i < StageType; i++) {
+                for (int j = 0; j < 3; j++) {
+                    GameObject Star = GameObject.Find("UI/Canvas/ScrollView/Viewport/Content/Stage" + (i + 1) + "/GUI_58/Star/ClearStar" + (j + 1));
+                    if (Star.GetComponent<SpriteRenderer>().sprite == img) {
+                        Stars[starIndex++] = 1;
+                    } else {
+                        Stars[starIndex++] = 0;
+                    }
+                }
+            }
+
+
+            starsGame = new List<GameObject>();
+            stageType = new List<GameObject>();
+
         }
     }
-
-
-
 }

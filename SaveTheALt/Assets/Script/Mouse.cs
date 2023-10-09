@@ -28,6 +28,11 @@ public class Mouse : MonoBehaviour
         circleCollider.enabled = CMP;
     }
 
+    private void OnMouseUp() 
+    {
+        
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Ground" ||

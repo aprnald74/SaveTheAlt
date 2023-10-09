@@ -9,6 +9,11 @@ public class LineFind : MonoBehaviour
 
     private float distance;
 
+    private void Start() 
+    {
+        Destroy(this.gameObject);
+    }
+
 
     void Update()
     {

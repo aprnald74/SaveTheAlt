@@ -18,7 +18,6 @@ public class LineMaker : MonoBehaviour
 
     // player
     private Rigidbody2D[] plRb;
-    private float gravityScale;
     private List<GameObject> players = new List<GameObject>();
 
 
@@ -81,7 +80,7 @@ public class LineMaker : MonoBehaviour
 
         for (int i = 1; i < 4; i++) {
             star.Add((max[nStage] / 4) * i);
-            thisImg.Add(GameObject.Find("Star/Star" + (4 - i)).GetComponent<SpriteRenderer>());
+            thisImg.Add(GameObject.Find("Map/Star/Star" + (4 - i)).GetComponent<SpriteRenderer>());
         }
 
     }

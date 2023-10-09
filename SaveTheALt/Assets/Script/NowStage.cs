@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NowStage : MonoBehaviour
 {
@@ -10,14 +11,14 @@ public class NowStage : MonoBehaviour
 
     public bool gameStart;
 
-    public Canvas over;
+    public GameObject over;
 
-    public Canvas clear;
+    public GameObject clear;
 
     private Sprite img;
 
     public List<GameObject> stars = new List<GameObject>();
-
+    
     private int count;
 
 
@@ -26,9 +27,9 @@ public class NowStage : MonoBehaviour
 
         stage = 1;
 
-        over = GameObject.Find("UI/End").GetComponent<Canvas>();
+        over = GameObject.Find("UI/End");
 
-        clear = GameObject.Find("UI/Clear").GetComponent<Canvas>();
+        clear = GameObject.Find("UI/Clear");
 
         Object[] sprites = Resources.LoadAll("IMG/GUI");
         img = sprites[25] as Sprite;
@@ -38,9 +39,9 @@ public class NowStage : MonoBehaviour
             stars[i].SetActive(false);
         }
 
-        over.enabled = false;
+        over.SetActive(false);
 
-        clear.enabled = false;
+        clear.SetActive(false);
 
         nPlayer = false;
     }
@@ -62,7 +63,7 @@ public class NowStage : MonoBehaviour
 
         yield return new WaitForSeconds(0.4f);
 
-        over.enabled = true;
+        over.SetActive(true);
 
         Time.timeScale = 0;
     }
@@ -72,19 +73,21 @@ public class NowStage : MonoBehaviour
 
         yield return new WaitForSeconds(5.0f);
 
-        GameObject.Find("GameSystem").GetComponent<GameManager>().clearStage++;
+        GameObject.Find("GameSystem").GetComponent<GameManager>().clearStage = SceneManager.GetActiveScene().buildIndex - 1;
 
         GameObject.Find("GameSystem").GetComponent<GameManager>().nStage = stage;
 
         count = GameObject.Find("GameManager").GetComponent<LineMaker>().num; 
 
-        GameObject.Find("GameSystem").GetComponent<GameManager>().clearStage = count;
+        GameObject.Find("GameSystem").GetComponent<GameManager>().clearStars = count;
 
         GameObject.Find("GameSystem").GetComponent<GameManager>().changeValue = true;
 
-        clear.enabled = true;
+        clear.SetActive(true);
 
-        for (int i = 2; i >= 0; i--) {
+        gameStart = false;
+
+        for (int i = 2; i > -1; i--) {
             stars[i].SetActive(true);
             if(count + i >= 2) {
                 stars[i].GetComponent<SpriteRenderer>().sprite = img;

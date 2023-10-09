@@ -7,6 +7,8 @@ public class ButtonManager : MonoBehaviour
     public void OnCLickStage()
     {
         SceneManager.LoadScene("Stage");
+
+        Time.timeScale = 1;
     }
 
     public void OnClickEnd()
@@ -31,6 +33,8 @@ public class ButtonManager : MonoBehaviour
 
     public void OnClickMain()
     {
+        GameObject.Find("GameSystem").GetComponent<GameManager>().changeValue = true;
+
         SceneManager.LoadScene("Main");
 
         Time.timeScale = 1;
@@ -38,12 +42,15 @@ public class ButtonManager : MonoBehaviour
 
     public void OnClickNextStage()
     {
-
+        GameObject UiClear = GameObject.Find("UI/Clear");
+        GameObject.Find("UI/Clear").SetActive(false);
+            
         if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         } else {
-            GameObject.Find("Clear").GetComponent<Canvas>().enabled = false;
-            GameObject.Find("UI").transform.GetChild(4).gameObject.SetActive(true);
+            GameObject.Find("UI").transform.GetChild(3).gameObject.SetActive(true);
         }
+
+        Time.timeScale = 1;
     }
 }
