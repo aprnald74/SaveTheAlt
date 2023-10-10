@@ -16,6 +16,8 @@ public class Mouse : MonoBehaviour
 
         circleCollider = gameObject.GetComponent<CircleCollider2D>();
 
+        circleCollider.enabled = false;
+
         LineFinder = Resources.Load<GameObject>("Prefab/LineFinder");
     }
 
@@ -30,7 +32,12 @@ public class Mouse : MonoBehaviour
 
     private void OnMouseUp() 
     {
-        
+        circleCollider.enabled = false;
+    }
+
+    private void OnMouseDown() 
+    {
+        circleCollider.enabled = true;
     }
 
     void OnTriggerEnter2D(Collider2D col)

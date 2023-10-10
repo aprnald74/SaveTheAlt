@@ -28,7 +28,6 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         Time.timeScale = 1;
-
     }
 
     public void OnClickMain()
@@ -43,7 +42,7 @@ public class ButtonManager : MonoBehaviour
     public void OnClickNextStage()
     {
         GameObject UiClear = GameObject.Find("UI/Clear");
-        GameObject.Find("UI/Clear").SetActive(false);
+        UiClear.SetActive(false);
             
         if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

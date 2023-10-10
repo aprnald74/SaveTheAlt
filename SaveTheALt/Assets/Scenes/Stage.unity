@@ -4414,7 +4414,7 @@ MonoBehaviour:
   changeValue: 0
   nStage: 0
   clearStars: 0
-  clearStage: 0
+  clearStage: -5
   img: {fileID: 0}
 --- !u!4 &1715675702
 Transform:

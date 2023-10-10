@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     public int clearStars;
 
-    public int clearStage = 0;
+    public int clearStage;
 
     public Sprite img;
 

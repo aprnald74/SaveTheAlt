@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class NowStage : MonoBehaviour
 {
-    [HideInInspector] public bool nPlayer;
+    public bool nPlayer;
 
-    [HideInInspector] public int stage;
+    public int stage;
 
     public bool gameStart;
 
@@ -25,7 +25,7 @@ public class NowStage : MonoBehaviour
     void Awake()
     {
 
-        stage = 1;
+        stage = SceneManager.GetActiveScene().buildIndex - 1;
 
         over = GameObject.Find("UI/End");
 
@@ -73,19 +73,22 @@ public class NowStage : MonoBehaviour
 
         yield return new WaitForSeconds(5.0f);
 
-        GameObject.Find("GameSystem").GetComponent<GameManager>().clearStage = SceneManager.GetActiveScene().buildIndex - 1;
+        gameStart = false;
 
-        GameObject.Find("GameSystem").GetComponent<GameManager>().nStage = stage;
+        GameManager gameManager;
+        gameManager = GameObject.Find("GameSystem").GetComponent<GameManager>();
+
+        gameManager.clearStage = SceneManager.GetActiveScene().buildIndex - 1;
+
+        gameManager.nStage = stage;
 
         count = GameObject.Find("GameManager").GetComponent<LineMaker>().num; 
 
-        GameObject.Find("GameSystem").GetComponent<GameManager>().clearStars = count;
+        gameManager.clearStars = count;
 
-        GameObject.Find("GameSystem").GetComponent<GameManager>().changeValue = true;
+        gameManager.changeValue = true;
 
         clear.SetActive(true);
-
-        gameStart = false;
 
         for (int i = 2; i > -1; i--) {
             stars[i].SetActive(true);
