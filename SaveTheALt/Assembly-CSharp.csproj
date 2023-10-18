@@ -38,8 +38,10 @@
   <ItemGroup>
      <Compile Include="Assets\Script\ButtonManager.cs" />
      <Compile Include="Assets\Script\Monster.cs" />
+     <Compile Include="Assets\Script\SoundManager.cs" />
      <Compile Include="Assets\Script\LineFind.cs" />
      <Compile Include="Assets\Script\GameManager.cs" />
+     <Compile Include="Assets\Script\DontDestory.cs" />
      <Compile Include="Assets\Script\Player.cs" />
      <Compile Include="Assets\Script\NowStage.cs" />
      <Compile Include="Assets\Script\LineMaker.cs" />

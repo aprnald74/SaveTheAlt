@@ -2,22 +2,12 @@ using UnityEngine;
 
 public class LineFind : MonoBehaviour
 {
-
     private Vector3 mPosition;
-    
     private float rotateDegree;
-
     private float distance;
-
-    private void Start() 
-    {
-        Destroy(this.gameObject);
-    }
-
 
     void Update()
     {
-
         mPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 oPosition = transform.position;
         Vector3 target = mPosition - transform.position;

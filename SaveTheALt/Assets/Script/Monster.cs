@@ -6,17 +6,11 @@ public class Monster : MonoBehaviour
 {
 
     private List<GameObject> foundObject;
-
     private ParticleSystem particle;
-
     private SpriteRenderer thisImg;
-
     private GameObject enemy;
-
     private float speed;
-
     private float angle;
-
     private float shortDis;
 
 
@@ -27,36 +21,30 @@ public class Monster : MonoBehaviour
 
         foundObject = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
+        particle = GameObject.Find("Boom").GetComponent<ParticleSystem>();
+
         speed = 1;
 
-        particle = GameObject.Find("Boom").GetComponent<ParticleSystem>();
+        FindPlayer();
     }
 
 
     void Update()
     {
-        if (foundObject[0] != null)
-        {
-            FindPlayer();
-            
-            if (!GameObject.Find("GameManager").GetComponent<LineMaker>().cheackOne)
-            {
-                
-                Vector3 dir = enemy.transform.position - transform.position;
+        if (!GameObject.Find("GameManager").GetComponent<LineMaker>().cheackOne) {
+            Vector3 dir = enemy.transform.position - transform.position;
 
-                transform.position += dir * speed * Time.deltaTime;
+            transform.position += dir * speed * Time.deltaTime;
 
-                angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            }
         }
     }
 
 
     void FindPlayer()
     {
-
         shortDis = Vector2.Distance(gameObject.transform.position, foundObject[0].transform.position);
 
         enemy = foundObject[0];
@@ -91,7 +79,7 @@ public class Monster : MonoBehaviour
     {
         thisImg.sprite = null;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         Destroy(gameObject);
     }

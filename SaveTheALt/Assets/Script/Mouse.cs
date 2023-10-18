@@ -2,21 +2,17 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
-    [HideInInspector] public bool CMP;
-
+    public bool CMP;
     private CircleCollider2D circleCollider;
-    private GameObject LineFinder;
-
+    public GameObject LineFinder;
     private Vector3 mPosition; 
 
 
     void Awake()
     {
-        CMP = true;
+        CMP = false;
 
         circleCollider = gameObject.GetComponent<CircleCollider2D>();
-
-        circleCollider.enabled = false;
 
         LineFinder = Resources.Load<GameObject>("Prefab/LineFinder");
     }
@@ -30,28 +26,19 @@ public class Mouse : MonoBehaviour
         circleCollider.enabled = CMP;
     }
 
-    private void OnMouseUp() 
-    {
-        circleCollider.enabled = false;
-    }
-
-    private void OnMouseDown() 
-    {
-        circleCollider.enabled = true;
-    }
-
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Ground" ||
-            col.gameObject.tag == "Player" ||
-            col.gameObject.tag == "Monster"||
-            col.gameObject.tag == "Trap" && CMP)  {
-            GameObject.Find("GameManager").GetComponent<LineMaker>().cheackTwo = false;
+        if ((col.gameObject.tag == "Ground" ||
+             col.gameObject.tag == "Player" ||
+             col.gameObject.tag == "Monster"||
+             col.gameObject.tag == "Trap") && CMP)  {
 
-            CMP = false;
-            circleCollider.enabled = col;
-            
             Instantiate(LineFinder, transform.position, transform.rotation);
+
+            GameObject.Find("GameManager").GetComponent<LineMaker>().cheackTwo = false;
+            CMP = false;
+            
+            circleCollider.enabled = col;
         }
     }
 }

@@ -9,7 +9,6 @@ TagManager:
   - Ground
   - Lava
   - Line
-  - Cliff
   layers:
   - Default
   - TransparentFX

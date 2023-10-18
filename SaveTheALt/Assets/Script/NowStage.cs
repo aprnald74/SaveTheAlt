@@ -6,19 +6,12 @@ using UnityEngine.SceneManagement;
 public class NowStage : MonoBehaviour
 {
     public bool nPlayer;
-
     public int stage;
-
     public bool gameStart;
-
     public GameObject over;
-
     public GameObject clear;
-
     private Sprite img;
-
     public List<GameObject> stars = new List<GameObject>();
-    
     private int count;
 
 
@@ -40,10 +33,9 @@ public class NowStage : MonoBehaviour
         }
 
         over.SetActive(false);
-
         clear.SetActive(false);
 
-        nPlayer = false;
+        nPlayer = true;
     }
 
 
@@ -53,7 +45,7 @@ public class NowStage : MonoBehaviour
         if (gameStart)
             StartCoroutine(GameStart());
 
-        if (nPlayer) 
+        if (!nPlayer) 
             StartCoroutine(GameOver());
         
     }
@@ -62,6 +54,8 @@ public class NowStage : MonoBehaviour
     {
 
         yield return new WaitForSeconds(0.4f);
+
+        SoundManager.instance.PlaySFX(SoundManager.sfxClips.GameLose);
 
         over.SetActive(true);
 
@@ -73,31 +67,37 @@ public class NowStage : MonoBehaviour
 
         yield return new WaitForSeconds(5.0f);
 
+        SoundManager.instance.PlaySFX(SoundManager.sfxClips.GameWin);
+
         gameStart = false;
 
         GameManager gameManager;
-        gameManager = GameObject.Find("GameSystem").GetComponent<GameManager>();
+        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
 
         gameManager.clearStage = SceneManager.GetActiveScene().buildIndex - 1;
 
-        gameManager.nStage = stage;
-
         count = GameObject.Find("GameManager").GetComponent<LineMaker>().num; 
 
-        gameManager.clearStars = count;
-
-        gameManager.changeValue = true;
+         for (int i = 0; i < 3; i++) {
+            if (count + i >= 2) {
+                gameManager.Stars[((stage - 1) * 3) + i] = 1;
+            } else {
+                gameManager.Stars[((stage - 1) * 3) + i] = 0;
+            }
+            
+        }
 
         clear.SetActive(true);
 
         for (int i = 2; i > -1; i--) {
             stars[i].SetActive(true);
-            if(count + i >= 2) {
+            if (count + i >= 2) {
                 stars[i].GetComponent<SpriteRenderer>().sprite = img;
             }
         }
 
-        Time.timeScale = 0;
+        gameManager.changeValue = true;
 
+        Time.timeScale = 0;
     }
 }
